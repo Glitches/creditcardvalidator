@@ -1,27 +1,53 @@
 ''' MY credit card validator'''
 
-class Credit_card():
-
-    card_digits = 0
-
-    def __init__(self, ccnum):
-        self.card_number = ccnum
+class Credit_card(object):
+    '''This class provides some method to generate and validate
+    credit card
+    '''
 
 
-    def number_of_digits(self):
+    def __init__(self):
+        self.card_number = ''
+        self.card_digits = 0
+
+
+    def number_of_digits(self, ccnum):
         '''Total number of digits'''
-        return len(self.card_number)
+        return len(ccnum)
+
+    def which_issuer(self, ccnum):
+        '''Verifies first digits and return which issuer is
+        Visa: Card numbers start with a 4.
+        MasterCard: Card numbers start with the numbers 51 through 55.
+        Discover: Card numbers begin with 6011 or 65.
+        American Express (Amex): Card numbers beginning with 34 or 37.
+
+        input
+        ccnum it's the credit card code number
+        '''
+        print('ciao')
+        if ccnum[0] == str(4):
+            print('Number %s it\'s a VISA card!' %(ccnum))
+        elif  51 < int(ccnum[0:2]) < 55:
+            print('Number %s it\'s a MASTERCARD card!' %(ccnum))
+        elif int(ccnum[0]) == 3:
+            print('Number %s it\'s a MASTERCARD card!' %(ccnum))
 
 
-    def mod10_algo(self):
-        cclist = self.card_number
-        print(cclist)
+    def mod10_algo(self, ccnum):
+        ''' Computes M10 algorithm on the input code
+
+        input
+        ccnum it's the credit card code number
+        '''
+        self.card_number = ccnum
+        print(self.card_number)
         i, s, number, digit_sum = self.card_digits -2, 0, 0, 0
         while i != -1:
             if i%2 == 0:
-                number = int(cclist[i]) * 2
+                number = int(self.card_number[i]) * 2
             else:
-                number = int(cclist[i])
+                number = int(self.card_number[i])
             print(number)
             if number >= 10:
                 number, reminder = divmod(number, 10)
@@ -31,15 +57,16 @@ class Credit_card():
             print('Somma: ' + str(digit_sum))
             i -= 1
         digit_sum = digit_sum * 9
-        # print('digit_sum ' + str(digit_sum)) # Debug 
-        if str(digit_sum)[-1] == cclist[self.card_digits -1]:
-            print('This card is valid')
+        # print('digit_sum ' + str(digit_sum)) # Debug
+        if str(digit_sum)[-1] == self.card_number[self.card_digits -1]:
+            print('Card number %s is valid!' %(self.card_number))
             print()
-            print(self.card_number)
+            print()
         else:
             print(str(digit_sum)[-1])
             print('This isn\'t a valid card number')
 
-first = Credit_card('38520000023237')
-first.card_digits = first.number_of_digits()
-first.mod10_algo()
+first = Credit_card()
+#first.card_digits = first.number_of_digits('38520000023237')
+first.which_issuer('38520000023237')
+#first.mod10_algo('38520000023236')
