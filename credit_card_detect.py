@@ -25,14 +25,23 @@ class Credit_card(object):
         input
         ccnum it's the credit card code number
         '''
-        print('ciao')
-        if ccnum[0] == str(4):
+        # print(ccnum)
+        if int(ccnum[0]) == 4:
             print('Number %s it\'s a VISA card!' %(ccnum))
-        elif  51 < int(ccnum[0:2]) < 55:
+            print()
+            print()
+        elif  51 <= int(ccnum[0:2]) <= 55:
             print('Number %s it\'s a MASTERCARD card!' %(ccnum))
+            print()
+            print()
         elif int(ccnum[0]) == 3:
-            print('Number %s it\'s a MASTERCARD card!' %(ccnum))
-
+            print('Number %s it\'s an AMERICAN EXPRESS card!' %(ccnum))
+            print()
+            print()
+        elif int(ccnum[0]) == 6:
+            print('Number %s it\'s a DISCOVER card!' %(ccnum))
+            print()
+            print()
 
     def mod10_algo(self, ccnum):
         ''' Computes M10 algorithm on the input code
@@ -41,20 +50,20 @@ class Credit_card(object):
         ccnum it's the credit card code number
         '''
         self.card_number = ccnum
-        print(self.card_number)
+        # print(self.card_number) # debug
         i, s, number, digit_sum = self.card_digits -2, 0, 0, 0
         while i != -1:
-            if i%2 == 0:
+            if i%2 != 0:
                 number = int(self.card_number[i]) * 2
             else:
                 number = int(self.card_number[i])
-            print(number)
+            # print(number) # debug
             if number >= 10:
                 number, reminder = divmod(number, 10)
                 number += reminder
-                print('Numero sommato ' + str(number))
+                # print('Numero sommato ' + str(number)) # debug
             digit_sum += number
-            print('Somma: ' + str(digit_sum))
+            # print('Somma: ' + str(digit_sum)) # debug
             i -= 1
         digit_sum = digit_sum * 9
         # print('digit_sum ' + str(digit_sum)) # Debug
@@ -62,11 +71,19 @@ class Credit_card(object):
             print('Card number %s is valid!' %(self.card_number))
             print()
             print()
+            return True
         else:
             print(str(digit_sum)[-1])
             print('This isn\'t a valid card number')
+            print()
+            print()
+
 
 first = Credit_card()
-#first.card_digits = first.number_of_digits('38520000023237')
-first.which_issuer('38520000023237')
-#first.mod10_algo('38520000023236')
+print()
+number = input('Type card number to verify: ')
+print()
+print()
+first.card_digits = first.number_of_digits(number)
+if first.mod10_algo(number) == True:
+    first.which_issuer(number)
